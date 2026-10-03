@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeLightbox() {
         if (lightboxModal) {
             lightboxModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         }
     }
 
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 (catatan ? `💬 *Catatan/Tanggal:* ${encodeURIComponent(catatan)}%0A` : '') +
                 `%0ASaya memahami pembayaran dilakukan via transfer ke rekening resmi perusahaan dan pengiriman langsung diproses di hari yang sama (Free Ongkir Se-Indonesia). Mohon dikirimkan nomor rekening resmi dan panduan selanjutnya. Terima kasih!`;
 
-            const waUrl = `https://api.whatsapp.com/send?phone=6288704769778&text=${message}`;
+            const waUrl = `https://api.whatsapp.com/send?phone=6281992200365&text=${message}`;
             window.open(waUrl, '_blank');
         });
     }
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper for direct package buttons
     window.orderPackageDirect = function (packageName) {
         const message = `Halo Admin Kemitraan AICE Indonesia, saya sangat tertarik untuk memesan / info lebih lanjut tentang *${encodeURIComponent(packageName)}*. Mohon info ketersediaan slot dan promo hari ini!`;
-        const waUrl = `https://api.whatsapp.com/send?phone=6288704769778&text=${message}`;
+        const waUrl = `https://api.whatsapp.com/send?phone=6281992200365&text=${message}`;
         window.open(waUrl, '_blank');
     };
 
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeReportModal() {
         if (reportModal) {
             reportModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         }
     }
 
@@ -408,10 +408,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 `📝 *Isi Pesan/Saran:*%0A${encodeURIComponent(pesan)}%0A%0A` +
                 `_Pesan dikirim melalui formulir resmi Laporan & Saran Landing Page._`;
 
-            const waReportUrl = `https://api.whatsapp.com/send?phone=6288704769778&text=${reportMsg}`;
+            const waReportUrl = `https://api.whatsapp.com/send?phone=6281992200365&text=${reportMsg}`;
             window.open(waReportUrl, '_blank');
             closeReportModal();
             reportForm.reset();
         });
+    }
+
+    // 10. MOBILE BOTTOM NAVIGATION HANDLER (ScrollSpy & Smooth Tap)
+    const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+    if (bottomNavItems.length > 0) {
+        bottomNavItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetId = item.getAttribute('data-target');
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    bottomNavItems.forEach(b => b.classList.remove('active'));
+                    item.classList.add('active');
+                    const offset = 70;
+                    const elPos = targetEl.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: elPos,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scrollspy for bottom nav
+        const observedSections = ['beranda', 'paket-usaha', 'paket-acara', 'testimoni', 'order-form-section'];
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + 250;
+            for (let i = observedSections.length - 1; i >= 0; i--) {
+                const sec = document.getElementById(observedSections[i]);
+                if (sec && sec.offsetTop <= scrollPos) {
+                    bottomNavItems.forEach(b => {
+                        if (b.getAttribute('data-target') === observedSections[i]) {
+                            b.classList.add('active');
+                        } else {
+                            b.classList.remove('active');
+                        }
+                    });
+                    break;
+                }
+            }
+        }, { passive: true });
     }
 });

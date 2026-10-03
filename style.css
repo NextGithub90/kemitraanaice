@@ -46,6 +46,8 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
@@ -54,7 +56,9 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
+    max-width: 100%;
 }
 
 a {
@@ -475,6 +479,16 @@ textarea {
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--aice-gold);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.stat-num .stat-rp {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--aice-gold-light);
 }
 
 .stat-label {
@@ -754,7 +768,7 @@ textarea {
 
 .package-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 2.2rem;
 }
 
@@ -763,6 +777,7 @@ textarea {
     border: 1px solid var(--navy-border);
     border-radius: var(--radius-xl);
     overflow: hidden;
+    min-width: 0;
     transition: var(--transition);
     display: flex;
     flex-direction: column;
@@ -820,10 +835,15 @@ textarea {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    min-width: 0;
 }
 
 .package-title-row {
     margin-bottom: 1rem;
+    min-height: 4.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .package-name {
@@ -842,12 +862,16 @@ textarea {
 .package-price-box {
     background: rgba(2, 132, 199, 0.15);
     border: 1px solid rgba(2, 132, 199, 0.3);
-    padding: 0.9rem 1.2rem;
+    padding: 0.85rem 1.15rem;
     border-radius: var(--radius-md);
     margin-bottom: 1.4rem;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    min-height: 68px;
+    gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
 }
 
 .package-price-box.gold-bg {
@@ -855,17 +879,57 @@ textarea {
     border-color: rgba(245, 158, 11, 0.4);
 }
 
+.price-box-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
 .price-label {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.price-profit-hint {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #10b981;
+    margin-top: 0.2rem;
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.25rem;
+    max-width: 100%;
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.3;
+}
+
+.price-profit-hint i {
+    flex-shrink: 0;
+    margin-top: 0.12em;
 }
 
 .price-value {
     font-family: var(--font-heading);
-    font-size: 1.75rem;
+    font-size: 1.7rem;
     font-weight: 800;
     color: var(--aice-gold);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.price-value .price-rp {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--aice-gold-light);
+    opacity: 0.95;
 }
 
 .package-features-list {
@@ -1039,7 +1103,7 @@ textarea {
    ========================================================= */
 .event-showcase-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
     gap: 2rem;
     margin-bottom: 3.5rem;
 }
@@ -1091,6 +1155,17 @@ textarea {
     font-weight: 800;
     color: var(--aice-gold);
     margin-bottom: 1rem;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.event-price .price-rp {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--aice-gold-light);
+    opacity: 0.95;
 }
 
 /* Equipment / Set Kelengkapan & Stand Booth Cards */
@@ -1411,8 +1486,15 @@ textarea {
     color: #ffffff;
 }
 
+.order-wrapper,
+.order-form-card,
+.order-form {
+    min-width: 0;
+}
+
 .form-group {
     margin-bottom: 1.25rem;
+    min-width: 0;
 }
 
 .form-label {
@@ -1427,6 +1509,8 @@ textarea {
 .form-select,
 .form-textarea {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     background: rgba(6, 14, 26, 0.75);
     border: 1px solid var(--navy-border);
     border-radius: var(--radius-md);
@@ -1434,6 +1518,7 @@ textarea {
     color: #ffffff;
     font-size: 0.95rem;
     transition: var(--transition);
+    text-overflow: ellipsis;
 }
 
 .form-input:focus,
@@ -1456,8 +1541,12 @@ textarea {
 
 .form-submit-btn {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.05rem;
+    padding: 0.95rem 1.25rem;
+    font-size: 1rem;
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.4;
+    text-align: center;
 }
 
 /* =========================================================
@@ -1751,8 +1840,8 @@ textarea {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.92);
     z-index: 9999;
     display: flex;
@@ -1981,16 +2070,16 @@ textarea {
     }
 
     .slider-nav-btn.prev {
-        left: 2px;
+        left: 4px;
     }
 
     .slider-nav-btn.next {
-        right: 2px;
+        right: 4px;
     }
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE DESIGN SYSTEM
    ========================================================= */
 @media (max-width: 1024px) {
 
@@ -2040,6 +2129,300 @@ textarea {
 }
 
 /* =========================================================
+   MOBILE BOTTOM NAVIGATION DOCK
+   ========================================================= */
+.mobile-bottom-nav {
+    display: none; /* Hidden on desktop */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+
+    body {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Fixed Bottom Navigation Bar */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(8, 18, 37, 0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(245, 158, 11, 0.35);
+        box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.6), 0 -1px 0 rgba(255, 255, 255, 0.05);
+        z-index: 9990;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.45rem 0.25rem calc(0.45rem + env(safe-area-inset-bottom, 0px));
+        box-sizing: border-box;
+    }
+
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 0.35rem 0.15rem;
+        color: #94a3b8;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        position: relative;
+        border-radius: 12px;
+    }
+
+    .bottom-nav-icon {
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+        color: #94a3b8;
+    }
+
+    .bottom-nav-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        transition: color 0.25s ease;
+        letter-spacing: 0.2px;
+    }
+
+    .bottom-nav-item:active .bottom-nav-icon {
+        transform: scale(0.88);
+    }
+
+    .bottom-nav-item.active .bottom-nav-icon {
+        color: var(--aice-gold);
+        transform: translateY(-2px);
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+    }
+
+    .bottom-nav-item.active .bottom-nav-label {
+        color: var(--aice-gold-light);
+        font-weight: 700;
+    }
+
+    .bottom-nav-item::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        width: 0;
+        height: 3px;
+        background: var(--aice-gold-gradient);
+        border-radius: 50px;
+        transition: width 0.3s ease;
+    }
+
+    .bottom-nav-item.active::after {
+        width: 16px;
+    }
+
+    /* Top navbar simplified on mobile - clean logo & direct WA */
+    .nav-menu {
+        display: none !important;
+    }
+
+    .mobile-toggle {
+        display: none !important;
+    }
+
+    /* Floating WhatsApp Button & Toast repositioning on Mobile */
+    .floating-wa-btn {
+        bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+        right: 14px;
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 18px rgba(37, 211, 102, 0.5);
+    }
+
+    .social-proof-toast {
+        bottom: calc(130px + env(safe-area-inset-bottom, 0px));
+        left: 12px;
+        right: 12px;
+        max-width: calc(100% - 24px);
+    }
+
+    .section {
+        padding: 3.5rem 0;
+    }
+
+    .hero {
+        padding: 3rem 0 3.5rem;
+    }
+
+    .hero-title {
+        font-size: 2.1rem;
+    }
+
+    .hero-highlights {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .hero-stats {
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .specs-list {
+        grid-template-columns: 1fr;
+    }
+
+    .order-wrapper {
+        gap: 1.75rem;
+    }
+
+    .order-form-card {
+        padding: 1.5rem 1.15rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .order-notice-box {
+        padding: 0.95rem 1rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .floating-guarantee {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .top-bar-content {
+        font-size: 0.82rem;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.85rem;
+    }
+
+    .navbar .container {
+        height: 60px;
+    }
+
+    .brand-logo-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .brand-name {
+        font-size: 1.2rem;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .nav-cta .btn-wa span {
+        display: none;
+    }
+
+    .nav-cta .btn-wa {
+        padding: 0;
+        width: 36px;
+        height: 36px;
+        font-size: 1.05rem;
+        border-radius: 50%;
+        justify-content: center;
+    }
+
+    .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+
+    .hero-desc {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .package-body {
+        padding: 1.25rem;
+    }
+
+    .package-price-box {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+    }
+
+    .price-value {
+        justify-self: end;
+        font-size: 1.55rem;
+    }
+
+    .package-name {
+        font-size: 1.3rem;
+    }
+
+    .tab-btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .order-form-card {
+        padding: 1.25rem 0.85rem;
+    }
+
+    .order-form-header h3 {
+        font-size: 1.4rem;
+        line-height: 1.3;
+    }
+
+    .order-form-header p {
+        font-size: 0.85rem;
+    }
+
+    .order-notice-box {
+        padding: 0.85rem 0.85rem;
+        font-size: 0.8rem;
+    }
+
+    .notice-item {
+        gap: 0.55rem;
+        font-size: 0.8rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        padding: 0.75rem 0.9rem;
+        font-size: 0.9rem;
+    }
+
+    .form-label {
+        font-size: 0.82rem;
+    }
+
+    .top-bar {
+        font-size: 0.75rem;
+        padding: 0.45rem 0.5rem;
+    }
+}
+
+/* =========================================================
    LAPORAN & SARAN MODAL & BUTTON STYLES
    ========================================================= */
 .btn-feedback-open {
@@ -2082,8 +2465,8 @@ textarea {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(4, 9, 20, 0.88);
     backdrop-filter: blur(8px);
     z-index: 10000;
